@@ -73,3 +73,7 @@ etherscan_api_key="YOURETHERSCANAPIKEY"
 # optimizerSteps = 'dhfoDgvulfnTUtnIf'                          # the optimization steps to be applied
 
 fs_permissions = [{ access = "read-write", path = "./addresses"}]
+
+[rpc_endpoints]
+sepolia = "${RPC_SEPOLIA}"
+base = "${RPC_BASE}"

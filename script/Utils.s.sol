@@ -8,6 +8,17 @@ import {ERC1967Proxy} from "openzeppelin-contracts/proxy/ERC1967/ERC1967Proxy.so
 contract Utils is Script {
     using stdJson for string;
 
+    function writeAddressToConfigJson(string memory key, address addr) public {
+        string memory configPath = getJsonConfigPath();
+        vm.writeJson(vm.toString(addr), configPath, key);
+    }
+
+    function getStringFromConfigJson(string memory key) public view returns (string memory) {
+        string memory json = getConfigJson();
+        bytes memory data = json.parseRaw(key);
+        return abi.decode(data, (string));
+    }
+
     function getAddressFromConfigJson(string memory key) public view returns (address) {
         string memory json = getConfigJson();
         bytes memory data = json.parseRaw(key);
@@ -109,8 +120,11 @@ contract Utils is Script {
         return r;
     }
 
-    function _createProxy(address proxyImplementation, bytes memory initializeCalldata) internal returns (address) {
-        return address(new ERC1967Proxy(proxyImplementation, initializeCalldata));
+    function _createProxy(address proxyImplementation, bytes memory initializeCalldata)
+        internal
+        returns (address proxyAddress)
+    {
+        proxyAddress = address(new ERC1967Proxy(proxyImplementation, initializeCalldata));
     }
 
     function _getChainId() internal view returns (uint256) {

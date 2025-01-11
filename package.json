@@ -15,7 +15,11 @@
     "doc": "forge doc --build --serve --port 8000",
     "publish:major": "npm version major && git push origin master develop --follow-tags",
     "publish:minor": "npm version minor && git push origin master develop --follow-tags",
-    "publish:patch": "npm version patch && git push origin master develop --follow-tags"
+    "publish:patch": "npm version patch && git push origin master develop --follow-tags",
+    "deployAsset:sepolia": "source .env && forge script DeployAsset --chain sepolia --private-key ${PRIVATE_KEY} -vvvv --slow",
+    "deployAsset:base": "source .env && forge script DeployAsset --chain base --private-key ${PRIVATE_KEY} -vvvv --slow",
+    "deployStaking:sepolia": "source .env && forge script DeployStaking --chain sepolia --private-key ${PRIVATE_KEY} -vvvv --slow",
+    "deployStaking:base": "source .env && forge script DeployStaking --chain base --private-key ${PRIVATE_KEY} -vvvv --slow"
   },
   "license": "Unlicensed"
 }
