@@ -1,0 +1,18 @@
+# Foundry
+cache/
+out/
+
+#Hardhat plugin files
+typechain-types/
+
+#Env
+.env
+
+#Coverage
+/report
+lcov.info
+coverage/
+coverage.json
+
+# OS
+.DS_Store
