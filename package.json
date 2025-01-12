@@ -19,7 +19,8 @@
     "deployAsset:sepolia": "source .env && forge script DeployAsset --rpc-url ${RPC_SEPOLIA} --private-key ${PRIVATE_KEY} -vvvv --slow",
     "deployAsset:base": "source .env && forge script DeployAsset --rpc-url ${RPC_BASE} --private-key ${PRIVATE_KEY} -vvvv --slow",
     "deployStaking:sepolia": "source .env && forge script DeployStaking --rpc-url ${RPC_SEPOLIA} --private-key ${PRIVATE_KEY} -vvvv --slow",
-    "deployStaking:base": "source .env && forge script DeployStaking --rpc-url ${RPC_BASE} --private-key ${PRIVATE_KEY} -vvvv --slow"
+    "deployStaking:base": "source .env && forge script DeployStaking --rpc-url ${RPC_BASE} --private-key ${PRIVATE_KEY} -vvvv --slow",
+    "deployUSDC:sepolia": "source .env && forge script DeployUSDC --rpc-url ${RPC_SEPOLIA} --private-key ${PRIVATE_KEY} -vvvv --slow"
   },
   "license": "Unlicensed"
 }
