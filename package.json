@@ -22,7 +22,9 @@
     "deployStaking:base": "source .env && forge script DeployStaking --rpc-url ${RPC_BASE} --private-key ${PRIVATE_KEY} -vvvv --slow",
     "deployUSDC:sepolia": "source .env && forge script DeployUSDC --rpc-url ${RPC_SEPOLIA} --private-key ${PRIVATE_KEY} -vvvv --slow",
     "deployRewards:sepolia": "source .env && forge script DeployRewards --rpc-url ${RPC_SEPOLIA} --private-key ${PRIVATE_KEY} -vvvv --slow",
-    "deployRewards:base": "source .env && forge script DeployRewards --rpc-url ${RPC_BASE} --private-key ${PRIVATE_KEY} -vvvv --slow"
+    "deployRewards:base": "source .env && forge script DeployRewards --rpc-url ${RPC_BASE} --private-key ${PRIVATE_KEY} -vvvv --slow",
+    "grantRoleRewards:sepolia": "source .env && forge script GrantRoleRewards --rpc-url ${RPC_SEPOLIA} --private-key ${PRIVATE_KEY} -vvvv --slow",
+    "grantRoleRewards:base": "source .env && forge script GrantRoleRewards --rpc-url ${RPC_BASE} --private-key ${PRIVATE_KEY} -vvvv --slow"
   },
   "license": "Unlicensed"
 }
