@@ -3,7 +3,7 @@ pragma solidity 0.8.28;
 
 import {Utils} from "./Utils.s.sol";
 
-import {Staking} from "../src/Staking.sol";
+import {StakingUpgradeable} from "../src/StakingUpgradeable.sol";
 
 contract DeployStaking is Utils {
     address public asset;
@@ -16,9 +16,15 @@ contract DeployStaking is Utils {
     function run() external {
         vm.startBroadcast();
 
-        staking = address(new Staking(asset, "Staked LEONARDO by Virtuals", "sLEONAI"));
+        address implementation = address(new StakingUpgradeable());
+        bytes memory data = abi.encodeWithSelector(
+            StakingUpgradeable.initialize.selector, asset, "Staked LEONARDO by Virtuals", "sLEONAI"
+        );
+
+        staking = _createProxy(implementation, data);
 
         writeAddressToConfigJson(".staking", staking);
+        writeAddressToConfigJson(".implementations.staking", implementation);
 
         vm.stopBroadcast();
     }
