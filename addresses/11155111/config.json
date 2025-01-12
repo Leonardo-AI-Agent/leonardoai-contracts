@@ -1,9 +1,11 @@
 {
   "asset": "0x4c4236Cc1CAFfC09AB830c85C4B2ECFD72239e8A",
   "staking": "0xEfAE34eC1eD42aE53b43E3d28c7d6b4b46A68512",
+  "rewards": "",
   "usdc": "0xb51e0c23c64c91D65651e591561Ad8DdeB3C9443",
   "uniswapV3Pool": "0xE0D2B7e988c9eddC6FE02C48b625540ddAd15eb9",
   "implementations": {
-    "staking": "0xD42aa756f368C54C76CC83B172E04Ce8B7Bfc8E2"
+    "staking": "0xD42aa756f368C54C76CC83B172E04Ce8B7Bfc8E2",
+    "rewards": ""
   }
 }
