@@ -6,15 +6,18 @@ import {Utils} from "./Utils.s.sol";
 import {RewardsUpgradeable} from "../src/RewardsUpgradeable.sol";
 
 contract DeployRewards is Utils {
+    address public staking;
     address public rewards;
 
-    function setUp() public {}
+    function setUp() public {
+        staking = getAddressFromConfigJson(".staking");
+    }
 
     function run() external {
         vm.startBroadcast();
 
         address implementation = address(new RewardsUpgradeable());
-        bytes memory data = abi.encodeWithSelector(RewardsUpgradeable.initialize.selector, "Rewards", "1");
+        bytes memory data = abi.encodeWithSelector(RewardsUpgradeable.initialize.selector, staking, "Rewards", "1");
 
         rewards = _createProxy(implementation, data);
 
