@@ -1,11 +1,11 @@
 {
-    "asset": "0xb933D4FF5A0e7bFE6AB7Da72b5DCE2259030252f",
-    "staking": "",
-    "rewards": "",
-    "usdc": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-    "uniswapV3Pool": "0xe0096c7573E8ed1E90Da225B9385F57e31E3d61d",
-    "implementations": {
-        "staking": "",
-        "rewards": ""
-    }
+  "asset": "0xb933D4FF5A0e7bFE6AB7Da72b5DCE2259030252f",
+  "staking": "0x3fad7e7679bE231B54D5e9DDd6c110850AA8EAC6",
+  "rewards": "0xD4C00BF73263385A18DFd7E10FC43a5A2D6a6eB7",
+  "usdc": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  "uniswapV3Pool": "0xe0096c7573E8ed1E90Da225B9385F57e31E3d61d",
+  "implementations": {
+    "staking": "0x989Cea8A1726209427D02F915A7348d4850A3cc5",
+    "rewards": "0x3fF81c8D7cbFE280b1993137A281f3c71a0b5BA8"
+  }
 }
