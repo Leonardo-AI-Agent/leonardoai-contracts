@@ -122,6 +122,7 @@ contract StakingUpgradeable is ERC4626Upgradeable, AccessControlUpgradeable, UUP
         }
 
         uint256 shares = previewWithdraw(assets);
+        _getStakingStorage().coolingdown[owner] -= shares;
         _withdraw(_msgSender(), receiver, owner, assets, shares);
 
         return shares;
@@ -136,6 +137,7 @@ contract StakingUpgradeable is ERC4626Upgradeable, AccessControlUpgradeable, UUP
         }
 
         uint256 assets = previewRedeem(shares);
+        _getStakingStorage().coolingdown[owner] -= shares;
         _withdraw(_msgSender(), receiver, owner, assets, shares);
 
         return assets;
