@@ -13,7 +13,7 @@ contract GrantRoleRewards is Utils {
     function setUp() public {
         rewards = getAddressFromConfigJson(".rewards");
         role = keccak256("SIGNER_ROLE");
-        account = 0x0856D141C3C400a7922E0ece4fC9b458bf1b07FC;
+        account = 0x7F281C80D1C00db36D3c555BB3175c78aB04FBd9;
     }
 
     function run() external {
