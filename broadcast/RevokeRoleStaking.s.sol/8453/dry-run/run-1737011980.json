@@ -5,18 +5,18 @@
       "transactionType": "CALL",
       "contractName": null,
       "contractAddress": "0xd4c00bf73263385a18dfd7e10fc43a5a2d6a6eb7",
-      "function": "grantRole(bytes32,address)",
+      "function": "revokeRole(bytes32,address)",
       "arguments": [
         "0x0000000000000000000000000000000000000000000000000000000000000000",
-        "0x70f754aFEaA9E15081BFE622734e1935141e8223"
+        "0xdde1Ee9Fd2a83E7C5454D68Db4d61c89ec4Cb131"
       ],
       "transaction": {
         "from": "0xdde1ee9fd2a83e7c5454d68db4d61c89ec4cb131",
         "to": "0xd4c00bf73263385a18dfd7e10fc43a5a2d6a6eb7",
-        "gas": "0x140d9",
+        "gas": "0xadd6",
         "value": "0x0",
-        "input": "0x2f2ff15d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000070f754afeaa9e15081bfe622734e1935141e8223",
-        "nonce": "0x11",
+        "input": "0xd547741f0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000dde1ee9fd2a83e7c5454d68db4d61c89ec4cb131",
+        "nonce": "0x13",
         "chainId": "0x2105"
       },
       "additionalContracts": [],
@@ -27,7 +27,7 @@
   "libraries": [],
   "pending": [],
   "returns": {},
-  "timestamp": 1737011046,
+  "timestamp": 1737011980,
   "chain": 8453,
   "commit": "eec4fb5"
 }
