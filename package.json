@@ -34,7 +34,9 @@
     "upgradeRewards:sepolia": "source .env && forge script UpgradeRewards --rpc-url ${RPC_SEPOLIA} --private-key ${PRIVATE_KEY} -vvvv --slow",
     "upgradeStaking:sepolia": "source .env && forge script UpgradeStaking --rpc-url ${RPC_SEPOLIA} --private-key ${PRIVATE_KEY} -vvvv --slow",
     "setCooldownTime:sepolia": "source .env && forge script SetCooldownTime --rpc-url ${RPC_SEPOLIA} --private-key ${PRIVATE_KEY} -vvvv --slow",
-    "setCooldownTime:base": "source .env && forge script SetCooldownTime --rpc-url ${RPC_BASE} --private-key ${PRIVATE_KEY} -vvvv --slow"
+    "setCooldownTime:base": "source .env && forge script SetCooldownTime --rpc-url ${RPC_BASE} --private-key ${PRIVATE_KEY} -vvvv --slow",
+    "decreaseAllowanceOnStaking:base": "source .env && forge script DecreaseAllowanceOnStaking --rpc-url ${RPC_BASE} --private-key ${PRIVATE_KEY} -vvvv --slow",
+    "decreaseAllowanceOnStaking:sepolia": "source .env && forge script DecreaseAllowanceOnStaking --rpc-url ${RPC_SEPOLIA} --private-key ${PRIVATE_KEY} -vvvv --slow"
   },
   "license": "Unlicensed"
 }
