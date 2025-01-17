@@ -15,7 +15,8 @@ contract SetCooldownTime is Utils {
     function run() external {
         vm.startBroadcast();
 
-        StakingUpgradeable(staking).setCooldown(57600); // 16 hours
+        // StakingUpgradeable(staking).setCooldown(57600); // 16 hours
+        StakingUpgradeable(staking).setCooldown(60); // 1 minute
 
         vm.stopBroadcast();
     }

@@ -147,6 +147,7 @@ contract Staking is Test, Utils {
         assertEq(staking.maxRedeem(alice), 0);
 
         vm.expectRevert();
+        // Tries transferring the shares before the cooldown ends
         staking.redeem(shares, alice, alice);
 
         vm.warp(expRelease + 1);
@@ -191,6 +192,36 @@ contract Staking is Test, Utils {
         assertEq(staking.maxRequestWithdraw(alice), assets / 2);
         assertEq(staking.maxRequestRedeem(alice), staking.convertToShares(assets / 2));
         assertEq(asset.balanceOf(alice), originalBalance - assets / 2);
+
+        vm.stopPrank();
+    }
+
+    function testTransfers() public {
+        vm.startPrank(alice);
+
+        uint256 assets = 1000;
+        uint256 shares = staking.convertToShares(assets);
+
+        asset.approve(address(staking), assets);
+        staking.deposit(assets, alice);
+
+        assertEq(staking.balanceOf(alice), shares);
+
+        staking.requestRedeem(shares / 2);
+
+        uint256 expRelease = block.timestamp + cooldownTime;
+
+        vm.expectRevert();
+        staking.transfer(bob, shares / 2);
+
+        vm.warp(expRelease + 1);
+
+        staking.transfer(bob, shares / 2);
+
+        assertEq(staking.balanceOf(alice), shares / 2);
+        assertEq(staking.balanceOf(bob), shares / 2);
+        assertEq(staking.maxRedeem(alice), 0);
+        assertEq(staking.maxRequestRedeem(alice), shares / 2);
 
         vm.stopPrank();
     }
