@@ -16,15 +16,15 @@ contract DeployStaking is Utils {
     function run() external {
         vm.startBroadcast();
 
-        uint256 cooldownTime = 1 days;
+        // uint256 cooldownTime = 1 days;
         address implementation = address(new StakingUpgradeable());
-        bytes memory data = abi.encodeWithSelector(
-            StakingUpgradeable.initialize.selector, asset, "Staked LEONARDO by Virtuals", "sLEONAI", cooldownTime
-        );
+        // bytes memory data = abi.encodeWithSelector(
+        //     StakingUpgradeable.initialize.selector, asset, "Staked LEONARDO by Virtuals", "sLEONAI", cooldownTime
+        // );
 
-        staking = _createProxy(implementation, data);
+        // staking = _createProxy(implementation, data);
 
-        writeAddressToConfigJson(".staking", staking);
+        // writeAddressToConfigJson(".staking", staking);
         writeAddressToConfigJson(".implementations.staking", implementation);
 
         vm.stopBroadcast();

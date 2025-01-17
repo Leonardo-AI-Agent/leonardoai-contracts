@@ -5,7 +5,7 @@
   "usdc": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
   "uniswapV3Pool": "0xe0096c7573E8ed1E90Da225B9385F57e31E3d61d",
   "implementations": {
-    "staking": "0x989Cea8A1726209427D02F915A7348d4850A3cc5",
+    "staking": "0x95ED19a6Aa9Ac09b9ce1Ea145e3e26984775c03f",
     "rewards": "0x3fF81c8D7cbFE280b1993137A281f3c71a0b5BA8"
   }
 }
