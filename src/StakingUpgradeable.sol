@@ -150,12 +150,23 @@ contract StakingUpgradeable is ERC4626Upgradeable, AccessControlUpgradeable, UUP
 
     function _update(address from, address to, uint256 value) internal override {
         if (from != address(0)) {
+            // If the transfer is from an address
             StakingStorage storage s = _getStakingStorage();
-            uint256 coolingDown_ = s.releaseTime[from] < block.timestamp ? s.coolingdown[from] : 0;
-            if (coolingDown_ < value) {
-                revert ERC20InsufficientBalance(from, coolingDown_, value);
+
+            if (to != address(0)) {
+                // If the transfer is to an address, user can only transfer the staked funds (not in cooldown)
+                uint256 fromBalance = balanceOf(from);
+                if (value > fromBalance - s.coolingdown[from]) {
+                    revert ERC20InsufficientBalance(from, fromBalance - s.coolingdown[from], value);
+                }
+            } else {
+                // If the transfer is to the zero address (redeem/withdraw)
+                uint256 available = s.releaseTime[from] < block.timestamp ? s.coolingdown[from] : 0;
+                if (value > available) {
+                    revert ERC20InsufficientBalance(from, available, value);
+                }
+                s.coolingdown[from] -= value;
             }
-            s.coolingdown[from] = coolingDown_ - value;
         }
         super._update(from, to, value);
     }

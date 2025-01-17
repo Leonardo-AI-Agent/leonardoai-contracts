@@ -212,7 +212,7 @@ contract Staking is Test, Utils {
         uint256 expRelease = block.timestamp + cooldownTime;
 
         vm.expectRevert();
-        staking.transfer(bob, shares / 2);
+        staking.transfer(bob, shares); // blocked by cooldown (only available half)
 
         vm.warp(expRelease + 1);
 
@@ -220,8 +220,16 @@ contract Staking is Test, Utils {
 
         assertEq(staking.balanceOf(alice), shares / 2);
         assertEq(staking.balanceOf(bob), shares / 2);
-        assertEq(staking.maxRedeem(alice), 0);
+        assertEq(staking.maxRedeem(alice), shares / 2);
         assertEq(staking.maxRequestRedeem(alice), shares / 2);
+
+        staking.redeem(shares / 2, alice, alice);
+
+        assertEq(staking.balanceOf(alice), 0);
+        assertEq(staking.balanceOf(bob), shares / 2);
+        assertEq(staking.maxRequestRedeem(bob), shares / 2);
+        assertEq(staking.maxRedeem(alice), 0);
+        assertEq(staking.maxRedeem(bob), 0);
 
         vm.stopPrank();
     }

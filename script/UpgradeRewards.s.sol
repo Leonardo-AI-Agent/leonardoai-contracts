@@ -19,6 +19,8 @@ contract UpgradeRewards is Utils {
 
         RewardsUpgradeable(rewards).upgradeToAndCall(implementation, "");
 
+        writeAddressToConfigJson(".implementations.rewards", implementation);
+
         vm.stopBroadcast();
     }
 }

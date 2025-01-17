@@ -19,6 +19,8 @@ contract UpgradeStaking is Utils {
 
         StakingUpgradeable(staking).upgradeToAndCall(implementation, "");
 
+        writeAddressToConfigJson(".implementations.staking", implementation);
+
         vm.stopBroadcast();
     }
 }
