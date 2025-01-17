@@ -15,11 +15,6 @@ contract StakingUpgradeable is ERC4626Upgradeable, AccessControlUpgradeable, UUP
     event StakingCoolingDown(address indexed owner, uint256 shares, uint256 releaseTime);
     event StakingNewCooldownTime(uint256 cooldownTime);
 
-    // Custom errors to handle exceeding maximum withdrawal and redemption limits
-    error StakingExceededMaxWithdraw(address owner, uint256 assets, uint256 maxAssets);
-    error StakingExceededMaxRedeem(address owner, uint256 shares, uint256 maxShares);
-    error StakingCooldownNotElapsed(address owner, uint256 releaseTime);
-
     // Storage structure for managing cooldown periods and associated data
     struct StakingStorage {
         uint256 cooldownTime; // Duration of the cooldown period
@@ -74,11 +69,6 @@ contract StakingUpgradeable is ERC4626Upgradeable, AccessControlUpgradeable, UUP
     // Allows a user to request a withdrawal, checks max allowed assets
     function requestWithdraw(uint256 assets) public {
         address owner = _msgSender();
-        uint256 maxAssets = maxRequestWithdraw(owner);
-        if (assets > maxAssets) {
-            revert ERC4626ExceededMaxWithdraw(owner, assets, maxAssets);
-        }
-
         uint256 shares = previewWithdraw(assets);
         _setRequest(owner, shares);
     }
@@ -86,60 +76,37 @@ contract StakingUpgradeable is ERC4626Upgradeable, AccessControlUpgradeable, UUP
     // Allows a user to request a redemption, checks max allowed shares
     function requestRedeem(uint256 shares) public {
         address owner = _msgSender();
-        uint256 maxShares = maxRequestRedeem(owner);
-        if (shares > maxShares) {
-            revert ERC4626ExceededMaxRedeem(owner, shares, maxShares);
-        }
-
         _setRequest(owner, shares);
     }
 
-    // Sets the cooldown request for a user with the specified shares
+    // Sets the cooldown request for a user with the specified shares (Resets cooldown)
     function _setRequest(address owner, uint256 shares) private {
         StakingStorage storage s = _getStakingStorage();
         uint256 releaseTime_ = block.timestamp + s.cooldownTime;
-        s.releaseTime[owner] = releaseTime_;
+        uint256 balance = balanceOf(owner);
+
+        if (shares > balance) {
+            revert ERC20InsufficientBalance(owner, balance, shares);
+        }
+
         s.coolingdown[owner] = shares;
+        s.releaseTime[owner] = releaseTime_;
 
         // Emit event to notify of the cooldown initiation
         emit StakingCoolingDown(owner, shares, releaseTime_);
     }
 
-    // Checks if the cooldown period has elapsed for the specified user
-    function _checkReleaseTime(address owner) private view {
-        StakingStorage storage s = _getStakingStorage();
-        if (block.timestamp < s.releaseTime[owner]) {
-            revert StakingCooldownNotElapsed(owner, s.releaseTime[owner]);
-        }
-    }
-
     // Handles asset withdrawal after checking max limits
     function withdraw(uint256 assets, address receiver, address owner) public override returns (uint256) {
-        _checkReleaseTime(owner);
-        uint256 maxAssets = maxWithdraw(owner);
-        if (assets > maxAssets) {
-            revert StakingExceededMaxWithdraw(owner, assets, maxAssets);
-        }
-
         uint256 shares = previewWithdraw(assets);
-        _getStakingStorage().coolingdown[owner] -= shares;
         _withdraw(_msgSender(), receiver, owner, assets, shares);
-
         return shares;
     }
 
     // Handles share redemption after checking max limits
     function redeem(uint256 shares, address receiver, address owner) public override returns (uint256) {
-        _checkReleaseTime(owner);
-        uint256 maxShares = maxRedeem(owner);
-        if (shares > maxShares) {
-            revert StakingExceededMaxRedeem(owner, shares, maxShares);
-        }
-
         uint256 assets = previewRedeem(shares);
-        _getStakingStorage().coolingdown[owner] -= shares;
         _withdraw(_msgSender(), receiver, owner, assets, shares);
-
         return assets;
     }
 
@@ -179,5 +146,17 @@ contract StakingUpgradeable is ERC4626Upgradeable, AccessControlUpgradeable, UUP
 
     function cooldownTime() public view returns (uint256) {
         return _getStakingStorage().cooldownTime;
+    }
+
+    function _update(address from, address to, uint256 value) internal override {
+        if (from != address(0)) {
+            StakingStorage storage s = _getStakingStorage();
+            uint256 coolingDown_ = s.releaseTime[from] < block.timestamp ? s.coolingdown[from] : 0;
+            if (coolingDown_ < value) {
+                revert ERC20InsufficientBalance(from, coolingDown_, value);
+            }
+            s.coolingdown[from] = coolingDown_ - value;
+        }
+        super._update(from, to, value);
     }
 }
